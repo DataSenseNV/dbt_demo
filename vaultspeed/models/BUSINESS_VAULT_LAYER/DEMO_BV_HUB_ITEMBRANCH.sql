@@ -1,0 +1,15 @@
+{{
+	config(
+		materialized='view',
+		alias='HUB_ITEMBRANCH',
+		schema='DEMO_BV',
+		tags=['view', 'BV', 'BV_HUB_ITEMBRANCH_BUSINESS_VIEW']
+	)
+}}
+	SELECT 
+		  "DVT_SRC"."ITEMBRANCH_HKEY" AS "ITEMBRANCH_HKEY"
+		, "DVT_SRC"."LOAD_DATE" AS "LOAD_DATE"
+		, "DVT_SRC"."LOAD_CYCLE_ID" AS "LOAD_CYCLE_ID"
+		, "DVT_SRC"."IBMCU_BK" AS "IBMCU_BK"
+		, "DVT_SRC"."IBITM_BK" AS "IBITM_BK"
+	FROM {{ ref('DEMO_FL_HUB_ITEMBRANCH') }} "DVT_SRC"

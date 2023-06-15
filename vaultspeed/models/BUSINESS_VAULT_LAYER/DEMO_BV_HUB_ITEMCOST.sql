@@ -1,0 +1,18 @@
+{{
+	config(
+		materialized='view',
+		alias='HUB_ITEMCOST',
+		schema='DEMO_BV',
+		tags=['view', 'BV', 'BV_HUB_ITEMCOST_BUSINESS_VIEW']
+	)
+}}
+	SELECT 
+		  "DVT_SRC"."ITEMCOST_HKEY" AS "ITEMCOST_HKEY"
+		, "DVT_SRC"."LOAD_DATE" AS "LOAD_DATE"
+		, "DVT_SRC"."LOAD_CYCLE_ID" AS "LOAD_CYCLE_ID"
+		, "DVT_SRC"."COITM_BK" AS "COITM_BK"
+		, "DVT_SRC"."COMCU_BK" AS "COMCU_BK"
+		, "DVT_SRC"."COLOCN_BK" AS "COLOCN_BK"
+		, "DVT_SRC"."COLOTN_BK" AS "COLOTN_BK"
+		, "DVT_SRC"."COLEDG_BK" AS "COLEDG_BK"
+	FROM {{ ref('DEMO_FL_HUB_ITEMCOST') }} "DVT_SRC"

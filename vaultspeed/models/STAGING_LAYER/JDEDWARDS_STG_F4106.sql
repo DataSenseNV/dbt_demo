@@ -1,0 +1,189 @@
+{{
+	config(
+		materialized='incremental',
+		pre_hook= [
+			'{% if var("load_type") == "INCR" and var("source") == "JDEDWARDS" %} TRUNCATE TABLE {{ this }}; {% endif %}',
+			'{% if var("load_type") == "INIT" and var("source") == "JDEDWARDS" %} TRUNCATE TABLE {{ this }}; {% endif %}'
+		],
+		alias='F4106',
+		schema='JDEDWARDS_STG',
+		tags=['JDEDWARDS', 'STG_JDE_ITEMPRICE_INCR', 'STG_JDE_ITEMPRICE_INIT']
+	)
+}}
+select * from (
+	SELECT 
+		  UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' )) AS "ITEMPRICE_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."COITM_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COMCU_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLOCN_FK_BPLEDG_BK" || 
+			'\#' ||  "EXT_SRC"."COLOTN_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLEDG_FK_BPLEDG_BK" || '\#' )) AS "ITEMCOST_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."IBMCU_FK_ITEMBRANCH_BPITM_BK" || '\#' ||  "EXT_SRC"."IBITM_FK_ITEMBRANCH_BPITM_BK" || 
+			'\#' )) AS "ITEMBRANCH_HKEY"
+		, UPPER(MD5_HEX( 'JDE' || '\#' || "EXT_SRC"."ABAN8_FK_BPAN8_BK" || '\#' )) AS "ACCOUNT_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK" || '\#' )) AS "BUSINESSUNITMASTER_HKEY"
+		, UPPER(MD5_HEX( 'JDE' || '\#' || "EXT_SRC"."IMITM_FK_ITEMMASTER_BPITM_BK" || '\#' )) AS "PRODUCT_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || "EXT_SRC"."COITM_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COMCU_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLOCN_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLOTN_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLEDG_FK_BPLEDG_BK" || '\#' )) AS "LNK_ITEMPRICE_ITEMCOST_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || "EXT_SRC"."IBMCU_FK_ITEMBRANCH_BPITM_BK" || '\#' ||  "EXT_SRC"."IBITM_FK_ITEMBRANCH_BPITM_BK" || '\#' )) AS "LNK_ITEMPRICE_ITEMBRANCH_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || 'JDE' || '\#' || "EXT_SRC"."ABAN8_FK_BPAN8_BK" || '\#' )) AS "LNK_ITEMPRICE_ACCOUNT_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || "EXT_SRC"."MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK" || '\#' )) AS "LNK_ITEMPRICE_BUSINESSUNITMASTER_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || 'JDE' || '\#' || "EXT_SRC"."IMITM_FK_ITEMMASTER_BPITM_BK" || '\#' )) AS "LNK_ITEMPRICE_PRODUCT_HKEY"
+		, "EXT_SRC"."LOAD_DATE" AS "LOAD_DATE"
+		, "EXT_SRC"."LOAD_CYCLE_ID" AS "LOAD_CYCLE_ID"
+		, "EXT_SRC"."CDC_TIMESTAMP" AS "CDC_TIMESTAMP"
+		, "EXT_SRC"."JRN_FLAG" AS "JRN_FLAG"
+		, "EXT_SRC"."RECORD_TYPE" AS "RECORD_TYPE"
+		, "EXT_SRC"."BPITM" AS "BPITM"
+		, "EXT_SRC"."BPMCU" AS "BPMCU"
+		, "EXT_SRC"."BPLOCN" AS "BPLOCN"
+		, "EXT_SRC"."BPLOTN" AS "BPLOTN"
+		, "EXT_SRC"."BPAN8" AS "BPAN8"
+		, "EXT_SRC"."BPIGID" AS "BPIGID"
+		, "EXT_SRC"."BPCGID" AS "BPCGID"
+		, "EXT_SRC"."BPLOTG" AS "BPLOTG"
+		, "EXT_SRC"."BPFRMP" AS "BPFRMP"
+		, "EXT_SRC"."BPCRCD" AS "BPCRCD"
+		, "EXT_SRC"."BPUOM" AS "BPUOM"
+		, "EXT_SRC"."BPEXDJ" AS "BPEXDJ"
+		, "EXT_SRC"."BPUPMJ" AS "BPUPMJ"
+		, "EXT_SRC"."BPTDAY" AS "BPTDAY"
+		, "EXT_SRC"."BPLEDG" AS "BPLEDG"
+		, "EXT_SRC"."BPITM_BK" AS "BPITM_BK"
+		, "EXT_SRC"."BPMCU_BK" AS "BPMCU_BK"
+		, "EXT_SRC"."BPLOCN_BK" AS "BPLOCN_BK"
+		, "EXT_SRC"."BPLOTN_BK" AS "BPLOTN_BK"
+		, "EXT_SRC"."BPAN8_BK" AS "BPAN8_BK"
+		, "EXT_SRC"."BPIGID_BK" AS "BPIGID_BK"
+		, "EXT_SRC"."BPCGID_BK" AS "BPCGID_BK"
+		, "EXT_SRC"."BPLOTG_BK" AS "BPLOTG_BK"
+		, "EXT_SRC"."BPFRMP_BK" AS "BPFRMP_BK"
+		, "EXT_SRC"."BPCRCD_BK" AS "BPCRCD_BK"
+		, "EXT_SRC"."BPUOM_BK" AS "BPUOM_BK"
+		, "EXT_SRC"."BPEXDJ_BK" AS "BPEXDJ_BK"
+		, "EXT_SRC"."BPUPMJ_BK" AS "BPUPMJ_BK"
+		, "EXT_SRC"."BPTDAY_BK" AS "BPTDAY_BK"
+		, "EXT_SRC"."COITM_FK_BPLEDG_BK" AS "COITM_FK_BPLEDG_BK"
+		, "EXT_SRC"."COMCU_FK_BPLEDG_BK" AS "COMCU_FK_BPLEDG_BK"
+		, "EXT_SRC"."COLOCN_FK_BPLEDG_BK" AS "COLOCN_FK_BPLEDG_BK"
+		, "EXT_SRC"."COLOTN_FK_BPLEDG_BK" AS "COLOTN_FK_BPLEDG_BK"
+		, "EXT_SRC"."COLEDG_FK_BPLEDG_BK" AS "COLEDG_FK_BPLEDG_BK"
+		, "EXT_SRC"."IBMCU_FK_ITEMBRANCH_BPITM_BK" AS "IBMCU_FK_ITEMBRANCH_BPITM_BK"
+		, "EXT_SRC"."IBITM_FK_ITEMBRANCH_BPITM_BK" AS "IBITM_FK_ITEMBRANCH_BPITM_BK"
+		, "EXT_SRC"."ABAN8_FK_BPAN8_BK" AS "ABAN8_FK_BPAN8_BK"
+		, "EXT_SRC"."MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK" AS "MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK"
+		, "EXT_SRC"."IMITM_FK_ITEMMASTER_BPITM_BK" AS "IMITM_FK_ITEMMASTER_BPITM_BK"
+		, "EXT_SRC"."BPLITM" AS "BPLITM"
+		, "EXT_SRC"."BPAITM" AS "BPAITM"
+		, "EXT_SRC"."BPEFTJ" AS "BPEFTJ"
+		, "EXT_SRC"."BPUPRC" AS "BPUPRC"
+		, "EXT_SRC"."BPACRD" AS "BPACRD"
+		, "EXT_SRC"."BPBSCD" AS "BPBSCD"
+		, "EXT_SRC"."BPFVTR" AS "BPFVTR"
+		, "EXT_SRC"."BPFRMN" AS "BPFRMN"
+		, "EXT_SRC"."BPURCD" AS "BPURCD"
+		, "EXT_SRC"."BPURDT" AS "BPURDT"
+		, "EXT_SRC"."BPURAT" AS "BPURAT"
+		, "EXT_SRC"."BPURAB" AS "BPURAB"
+		, "EXT_SRC"."BPURRF" AS "BPURRF"
+		, "EXT_SRC"."BPAPRS" AS "BPAPRS"
+		, "EXT_SRC"."BPUSER" AS "BPUSER"
+		, "EXT_SRC"."BPPID" AS "BPPID"
+		, "EXT_SRC"."BPJOBN" AS "BPJOBN"
+	FROM {{ ref('JDEDWARDS_EXT_F4106') }} "EXT_SRC"
+	INNER JOIN {{ source('JDEDWARDS_MTD', 'MTD_EXCEPTION_RECORDS') }} "MEX_SRC" ON  "MEX_SRC"."RECORD_TYPE" = 'U'
+
+) final 
+where '{{ var("load_type") }}' = 'INCR' and '{{ var("source") }}' = 'JDEDWARDS'
+
+UNION ALL
+
+select * from (
+	SELECT 
+		  UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' )) AS "ITEMPRICE_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."COITM_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COMCU_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLOCN_FK_BPLEDG_BK" || 
+			'\#' ||  "EXT_SRC"."COLOTN_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLEDG_FK_BPLEDG_BK" || '\#' )) AS "ITEMCOST_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."IBMCU_FK_ITEMBRANCH_BPITM_BK" || '\#' ||  "EXT_SRC"."IBITM_FK_ITEMBRANCH_BPITM_BK" || 
+			'\#' )) AS "ITEMBRANCH_HKEY"
+		, UPPER(MD5_HEX( 'JDE' || '\#' || "EXT_SRC"."ABAN8_FK_BPAN8_BK" || '\#' )) AS "ACCOUNT_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK" || '\#' )) AS "BUSINESSUNITMASTER_HKEY"
+		, UPPER(MD5_HEX( 'JDE' || '\#' || "EXT_SRC"."IMITM_FK_ITEMMASTER_BPITM_BK" || '\#' )) AS "PRODUCT_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || "EXT_SRC"."COITM_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COMCU_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLOCN_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLOTN_FK_BPLEDG_BK" || '\#' ||  "EXT_SRC"."COLEDG_FK_BPLEDG_BK" || '\#' )) AS "LNK_ITEMPRICE_ITEMCOST_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || "EXT_SRC"."IBMCU_FK_ITEMBRANCH_BPITM_BK" || '\#' ||  "EXT_SRC"."IBITM_FK_ITEMBRANCH_BPITM_BK" || '\#' )) AS "LNK_ITEMPRICE_ITEMBRANCH_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || 'JDE' || '\#' || "EXT_SRC"."ABAN8_FK_BPAN8_BK" || '\#' )) AS "LNK_ITEMPRICE_ACCOUNT_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || "EXT_SRC"."MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK" || '\#' )) AS "LNK_ITEMPRICE_BUSINESSUNITMASTER_HKEY"
+		, UPPER(MD5_HEX( "EXT_SRC"."BPITM_BK" || '\#' ||  "EXT_SRC"."BPMCU_BK" || '\#' ||  "EXT_SRC"."BPLOCN_BK" || '\#' ||  
+			"EXT_SRC"."BPLOTN_BK" || '\#' ||  "EXT_SRC"."BPAN8_BK" || '\#' ||  "EXT_SRC"."BPIGID_BK" || '\#' ||  "EXT_SRC"."BPCGID_BK" || '\#' ||  "EXT_SRC"."BPLOTG_BK" || '\#' ||  "EXT_SRC"."BPFRMP_BK" || '\#' ||  "EXT_SRC"."BPCRCD_BK" || '\#' ||  "EXT_SRC"."BPUOM_BK" || '\#' ||  "EXT_SRC"."BPEXDJ_BK" || '\#' ||  "EXT_SRC"."BPUPMJ_BK" || '\#' ||  "EXT_SRC"."BPTDAY_BK" || '\#' || 'JDE' || '\#' || "EXT_SRC"."IMITM_FK_ITEMMASTER_BPITM_BK" || '\#' )) AS "LNK_ITEMPRICE_PRODUCT_HKEY"
+		, "EXT_SRC"."LOAD_DATE" AS "LOAD_DATE"
+		, "EXT_SRC"."LOAD_CYCLE_ID" AS "LOAD_CYCLE_ID"
+		, "EXT_SRC"."CDC_TIMESTAMP" AS "CDC_TIMESTAMP"
+		, "EXT_SRC"."JRN_FLAG" AS "JRN_FLAG"
+		, "EXT_SRC"."RECORD_TYPE" AS "RECORD_TYPE"
+		, "EXT_SRC"."BPITM" AS "BPITM"
+		, "EXT_SRC"."BPMCU" AS "BPMCU"
+		, "EXT_SRC"."BPLOCN" AS "BPLOCN"
+		, "EXT_SRC"."BPLOTN" AS "BPLOTN"
+		, "EXT_SRC"."BPAN8" AS "BPAN8"
+		, "EXT_SRC"."BPIGID" AS "BPIGID"
+		, "EXT_SRC"."BPCGID" AS "BPCGID"
+		, "EXT_SRC"."BPLOTG" AS "BPLOTG"
+		, "EXT_SRC"."BPFRMP" AS "BPFRMP"
+		, "EXT_SRC"."BPCRCD" AS "BPCRCD"
+		, "EXT_SRC"."BPUOM" AS "BPUOM"
+		, "EXT_SRC"."BPEXDJ" AS "BPEXDJ"
+		, "EXT_SRC"."BPUPMJ" AS "BPUPMJ"
+		, "EXT_SRC"."BPTDAY" AS "BPTDAY"
+		, "EXT_SRC"."BPLEDG" AS "BPLEDG"
+		, "EXT_SRC"."BPITM_BK" AS "BPITM_BK"
+		, "EXT_SRC"."BPMCU_BK" AS "BPMCU_BK"
+		, "EXT_SRC"."BPLOCN_BK" AS "BPLOCN_BK"
+		, "EXT_SRC"."BPLOTN_BK" AS "BPLOTN_BK"
+		, "EXT_SRC"."BPAN8_BK" AS "BPAN8_BK"
+		, "EXT_SRC"."BPIGID_BK" AS "BPIGID_BK"
+		, "EXT_SRC"."BPCGID_BK" AS "BPCGID_BK"
+		, "EXT_SRC"."BPLOTG_BK" AS "BPLOTG_BK"
+		, "EXT_SRC"."BPFRMP_BK" AS "BPFRMP_BK"
+		, "EXT_SRC"."BPCRCD_BK" AS "BPCRCD_BK"
+		, "EXT_SRC"."BPUOM_BK" AS "BPUOM_BK"
+		, "EXT_SRC"."BPEXDJ_BK" AS "BPEXDJ_BK"
+		, "EXT_SRC"."BPUPMJ_BK" AS "BPUPMJ_BK"
+		, "EXT_SRC"."BPTDAY_BK" AS "BPTDAY_BK"
+		, "EXT_SRC"."COITM_FK_BPLEDG_BK" AS "COITM_FK_BPLEDG_BK"
+		, "EXT_SRC"."COMCU_FK_BPLEDG_BK" AS "COMCU_FK_BPLEDG_BK"
+		, "EXT_SRC"."COLOCN_FK_BPLEDG_BK" AS "COLOCN_FK_BPLEDG_BK"
+		, "EXT_SRC"."COLOTN_FK_BPLEDG_BK" AS "COLOTN_FK_BPLEDG_BK"
+		, "EXT_SRC"."COLEDG_FK_BPLEDG_BK" AS "COLEDG_FK_BPLEDG_BK"
+		, "EXT_SRC"."IBMCU_FK_ITEMBRANCH_BPITM_BK" AS "IBMCU_FK_ITEMBRANCH_BPITM_BK"
+		, "EXT_SRC"."IBITM_FK_ITEMBRANCH_BPITM_BK" AS "IBITM_FK_ITEMBRANCH_BPITM_BK"
+		, "EXT_SRC"."ABAN8_FK_BPAN8_BK" AS "ABAN8_FK_BPAN8_BK"
+		, "EXT_SRC"."MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK" AS "MCMCU_FK_BUSINESSUNITMASTER_BPMCU_BK"
+		, "EXT_SRC"."IMITM_FK_ITEMMASTER_BPITM_BK" AS "IMITM_FK_ITEMMASTER_BPITM_BK"
+		, "EXT_SRC"."BPLITM" AS "BPLITM"
+		, "EXT_SRC"."BPAITM" AS "BPAITM"
+		, "EXT_SRC"."BPEFTJ" AS "BPEFTJ"
+		, "EXT_SRC"."BPUPRC" AS "BPUPRC"
+		, "EXT_SRC"."BPACRD" AS "BPACRD"
+		, "EXT_SRC"."BPBSCD" AS "BPBSCD"
+		, "EXT_SRC"."BPFVTR" AS "BPFVTR"
+		, "EXT_SRC"."BPFRMN" AS "BPFRMN"
+		, "EXT_SRC"."BPURCD" AS "BPURCD"
+		, "EXT_SRC"."BPURDT" AS "BPURDT"
+		, "EXT_SRC"."BPURAT" AS "BPURAT"
+		, "EXT_SRC"."BPURAB" AS "BPURAB"
+		, "EXT_SRC"."BPURRF" AS "BPURRF"
+		, "EXT_SRC"."BPAPRS" AS "BPAPRS"
+		, "EXT_SRC"."BPUSER" AS "BPUSER"
+		, "EXT_SRC"."BPPID" AS "BPPID"
+		, "EXT_SRC"."BPJOBN" AS "BPJOBN"
+	FROM {{ ref('JDEDWARDS_EXT_F4106') }} "EXT_SRC"
+	INNER JOIN {{ source('JDEDWARDS_MTD', 'MTD_EXCEPTION_RECORDS') }} "MEX_SRC" ON  "MEX_SRC"."RECORD_TYPE" = 'U'
+
+) final 
+where '{{ var("load_type") }}' = 'INIT' and '{{ var("source") }}' = 'JDEDWARDS'

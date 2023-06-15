@@ -1,0 +1,225 @@
+version: 2
+sources:
+- name: JDEDWARDS_CDC
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: CDC_F0006
+  - name: CDC_F0010
+  - name: CDC_F0101
+  - name: CDC_F0111
+  - name: CDC_F0115
+  - name: CDC_F01151
+  - name: CDC_F0116
+  - name: CDC_F4101
+  - name: CDC_F4102
+  - name: CDC_F4104
+  - name: CDC_F4105
+  - name: CDC_F4106
+  - name: CDC_F4201
+  - name: CDC_F42019
+  - name: CDC_F4211
+  - name: CDC_F42119
+  - name: CDC_F800010
+- name: JDEDWARDS_DFV
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: DROP
+  - name: F0006
+  - name: F0010
+  - name: F0101
+  - name: F0111
+  - name: F0115
+  - name: F01151
+  - name: F0116
+  - name: F4101
+  - name: F4102
+  - name: F4104
+  - name: F4105
+  - name: F4106
+  - name: F4201
+  - name: F42019
+  - name: F4211
+  - name: F42119
+  - name: F800010
+  - name: VW_F0006
+  - name: VW_F0010
+  - name: VW_F0101
+  - name: VW_F0111
+  - name: VW_F0115
+  - name: VW_F01151
+  - name: VW_F0116
+  - name: VW_F4101
+  - name: VW_F4102
+  - name: VW_F4104
+  - name: VW_F4105
+  - name: VW_F4106
+  - name: VW_F4201
+  - name: VW_F42019
+  - name: VW_F4211
+  - name: VW_F42119
+  - name: VW_F800010
+- name: JDEDWARDS_EXT
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: F0006
+  - name: F0010
+  - name: F0101
+  - name: F0111
+  - name: F0115
+  - name: F01151
+  - name: F0116
+  - name: F4101
+  - name: F4102
+  - name: F4104
+  - name: F4105
+  - name: F4106
+  - name: F4201
+  - name: F42019
+  - name: F4211
+  - name: F42119
+  - name: F800010
+- name: JDEDWARDS_INI
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: F0006
+  - name: F0010
+  - name: F0101
+  - name: F0111
+  - name: F0115
+  - name: F01151
+  - name: F0116
+  - name: F4101
+  - name: F4102
+  - name: F4104
+  - name: F4105
+  - name: F4106
+  - name: F4201
+  - name: F42019
+  - name: F4211
+  - name: F42119
+  - name: F800010
+- name: JDEDWARDS_MTD
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: LOAD_CYCLE_INFO
+  - name: FMC_LOADING_WINDOW_TABLE
+  - name: MTD_EXCEPTION_RECORDS
+- name: JDEDWARDS_STG
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: LKS_JDE_ACCOUNT_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_ADDRESS_ACCOUNT_TMP
+  - name: LKS_JDE_BUSINESSUNITMASTER_ACCOUNT_TMP
+  - name: LKS_JDE_BUSINESSUNITMASTER_COMPANY_TMP
+  - name: LKS_JDE_COMPANY_ACCOUNT_TMP
+  - name: LKS_JDE_EMAIL_ACCOUNT_TMP
+  - name: LKS_JDE_EMAIL_WHOISWHO_TMP
+  - name: LKS_JDE_ITEMBRANCH_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_ITEMBRANCH_PRODUCT_TMP
+  - name: LKS_JDE_ITEMCOST_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_ITEMCOST_ITEMBRANCH_TMP
+  - name: LKS_JDE_ITEMCOST_PRODUCT_TMP
+  - name: LKS_JDE_ITEMCROSSREFERENCE_ACCOUNT_TMP
+  - name: LKS_JDE_ITEMCROSSREFERENCE_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_ITEMCROSSREFERENCE_ITEMBRANCH_TMP
+  - name: LKS_JDE_ITEMCROSSREFERENCE_PRODUCT_TMP
+  - name: LKS_JDE_ITEMPRICE_ACCOUNT_TMP
+  - name: LKS_JDE_ITEMPRICE_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_ITEMPRICE_ITEMBRANCH_TMP
+  - name: LKS_JDE_ITEMPRICE_ITEMCOST_TMP
+  - name: LKS_JDE_ITEMPRICE_PRODUCT_TMP
+  - name: LKS_JDE_PHONE_ACCOUNT_TMP
+  - name: LKS_JDE_PHONE_WHOISWHO_TMP
+  - name: LKS_JDE_SODETAIL_ACCOUNT_SDAN8_TMP
+  - name: LKS_JDE_SODETAIL_ACCOUNT_SDSHAN_TMP
+  - name: LKS_JDE_SODETAIL_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_SODETAIL_COMPANY_TMP
+  - name: LKS_JDE_SODETAILHIST_ACCOUNT_SDAN8_TMP
+  - name: LKS_JDE_SODETAILHIST_ACCOUNT_SDSHAN_TMP
+  - name: LKS_JDE_SODETAILHIST_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_SODETAILHIST_COMPANY_TMP
+  - name: LKS_JDE_SODETAILHIST_ITEMBRANCH_TMP
+  - name: LKS_JDE_SODETAILHIST_PRODUCT_TMP
+  - name: LKS_JDE_SODETAILHIST_SOHEADER_TMP
+  - name: LKS_JDE_SODETAIL_ITEMBRANCH_TMP
+  - name: LKS_JDE_SODETAIL_PRODUCT_TMP
+  - name: LKS_JDE_SODETAIL_SOHEADER_TMP
+  - name: LKS_JDE_SOHEADER_ACCOUNT_TMP
+  - name: LKS_JDE_SOHEADER_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_SOHEADERHIST_ACCOUNT_TMP
+  - name: LKS_JDE_SOHEADERHIST_BUSINESSUNITMASTER_TMP
+  - name: LKS_JDE_WHOISWHO_ACCOUNT_TMP
+  - name: SAT_JDE_ACCOUNT_TMP
+  - name: SAT_JDE_ADDRESS_TMP
+  - name: SAT_JDE_BUSINESSUNITMASTER_TMP
+  - name: SAT_JDE_COMPANY_TMP
+  - name: SAT_JDE_EMAIL_TMP
+  - name: SAT_JDE_ITEMBRANCH_TMP
+  - name: SAT_JDE_ITEMCOST_TMP
+  - name: SAT_JDE_ITEMCROSSREFERENCE_TMP
+  - name: SAT_JDE_ITEMPRICE_TMP
+  - name: SAT_JDE_PHONE_TMP
+  - name: SAT_JDE_PRODUCT_TMP
+  - name: SAT_JDE_SALESORDERDETAILHISTORY_TMP
+  - name: SAT_JDE_SALESORDERDETAIL_TMP
+  - name: SAT_JDE_SALESORDERHEADERHISTORY_TMP
+  - name: SAT_JDE_SALESORDERHEADER_TMP
+  - name: SAT_JDE_WHOISWHO_TMP
+  - name: F0006
+  - name: F0010
+  - name: F0101
+  - name: F0111
+  - name: F0115
+  - name: F01151
+  - name: F0116
+  - name: F4101
+  - name: F4102
+  - name: F4104
+  - name: F4105
+  - name: F4106
+  - name: F4201
+  - name: F42019
+  - name: F4211
+  - name: F42119
+  - name: F800010
+- name: JDEDWARDS_DTVR
+  quoting:
+    database: true
+    schema: true
+    identifier: true
+  tables:
+  - name: F0006
+  - name: F0010
+  - name: F0101
+  - name: F0111
+  - name: F0115
+  - name: F01151
+  - name: F0116
+  - name: F4101
+  - name: F4102
+  - name: F4104
+  - name: F4105
+  - name: F4106
+  - name: F4201
+  - name: F42019
+  - name: F4211
+  - name: F42119
+  - name: F800010
